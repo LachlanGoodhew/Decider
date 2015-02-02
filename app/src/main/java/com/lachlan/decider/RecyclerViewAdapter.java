@@ -5,11 +5,14 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
-* Created by Lachlan Goodhew-Cook on 01-Feb-15.
-*/
+ * Created by Lachlan Goodhew-Cook on 01-Feb-15.
+ */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private String[] mDataset;
+    private List<String> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -25,14 +28,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerViewAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public RecyclerViewAdapter(List<String> myDataset) {
+        mDataset = new ArrayList<>(myDataset);
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         TextView v = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
@@ -45,13 +47,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset[position]);
+        holder.mTextView.setText(mDataset.get(position));
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
+    }
+
+    public void add(String item, int position) {
+        mDataset.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public void add(String item) {
+        mDataset.add(item);
+        notifyItemInserted(mDataset.size());
+    }
+
+    public void remove(String item) {
+        int position = mDataset.indexOf(item);
+        mDataset.remove(position);
+        notifyItemRemoved(position);
     }
 }
