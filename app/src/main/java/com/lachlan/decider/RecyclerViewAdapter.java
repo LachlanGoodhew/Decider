@@ -52,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         tv.setText(mDataset.get(position));
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your data set (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();
@@ -72,5 +72,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         int position = mDataset.indexOf(item);
         mDataset.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void remove(int position) {
+        mDataset.remove(position);
+        notifyDataSetChanged();
     }
 }
