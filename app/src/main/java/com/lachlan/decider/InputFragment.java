@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +59,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
         decidingList.setOnScrollListener(touchListener.makeScrollListener());
 
-        Button add = (Button) rootView.findViewById(R.id.add_button);
+        FloatingActionButton add = (FloatingActionButton ) rootView.findViewById(R.id.add_button);
         add.setOnClickListener(this);
 
         return rootView;
