@@ -8,8 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
         decidingList.setOnScrollListener(touchListener.makeScrollListener());
 
-        FloatingActionButton add = (FloatingActionButton ) rootView.findViewById(R.id.add_button);
+        FloatingActionButton add = (FloatingActionButton) rootView.findViewById(R.id.add_button);
         add.setOnClickListener(this);
 
         return rootView;
@@ -69,7 +70,33 @@ public class InputFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_button: {
-                mAdapter.add("new item");
+                new MaterialDialog.Builder(getActivity())
+                        .title("Title")
+                        .customView(R.layout.add_dialog, true)
+                        .positiveText("Add")
+                        .negativeText("Cancel")
+                        .autoDismiss(false)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                super.onPositive(dialog);
+                                EditText itemToAdd = (EditText) dialog.findViewById(R.id.item_to_add);
+                                String valueToAdd = itemToAdd.getText().toString();
+                                if (!valueToAdd.equals("")) {
+                                    dialog.dismiss();
+                                    mAdapter.add(valueToAdd);
+                                } else {
+                                    itemToAdd.setError("Please enter a value");
+                                }
+                            }
+
+                            @Override
+                            public void onNegative(MaterialDialog dialog) {
+                                super.onNegative(dialog);
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
                 break;
             }
         }
