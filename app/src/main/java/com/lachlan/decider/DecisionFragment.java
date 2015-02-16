@@ -19,14 +19,15 @@ public class DecisionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Initialise
-        decisionList = getArguments().getStringArrayList("decisionList");
+        decisionList = getArguments().getStringArrayList(getString(R.string.decision_list_key));
         decisionText = decisionList.get(new Random().nextInt(decisionList.size()));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_input, container, false);
+        View view = inflater.inflate(R.layout.fragment_decision, container, false);
 
         TextView decision = (TextView) view.findViewById(R.id.decision);
         decision.setText(decisionText);

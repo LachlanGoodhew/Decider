@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Lachlan Goodhew-Cook on 01-Feb-15.
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private List<String> mDataset;
+    private ArrayList<String> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -78,4 +78,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mDataset.remove(position);
         notifyDataSetChanged();
     }
+
+    public ArrayList<String> getDataSet() {
+        return this.mDataset;
+    }
+
 }

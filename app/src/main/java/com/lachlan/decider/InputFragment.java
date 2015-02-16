@@ -6,6 +6,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -20,6 +23,13 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerViewAdapter mAdapter;
     private List<String> myDataset;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,11 +77,40 @@ public class InputFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        super.onCreateOptionsMenu(menu, menuInflater);
+        // Inflate the menu items for use in the action bar
+        menuInflater.inflate(R.menu.decider_menu_actions, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_decide:
+                Bundle args = new Bundle();
+                args.putStringArrayList(getString(R.string.decision_list_key), mAdapter.getDataSet());
+                DecisionFragment decisionFragment = new DecisionFragment();
+                decisionFragment.setArguments(args);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_bottom,
+                                R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_bottom)
+                        .add(R.id.container, decisionFragment)
+                        .addToBackStack(null)
+                        .commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_button: {
                 new MaterialDialog.Builder(getActivity())
-                        .title("Title")
+                        .title("New Choice")
                         .customView(R.layout.add_dialog, true)
                         .positiveText("Add")
                         .negativeText("Cancel")
