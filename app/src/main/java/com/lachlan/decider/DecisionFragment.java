@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,7 +18,6 @@ public class DecisionFragment extends Fragment {
     private List<String> decisionList;
     private String decisionText;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +25,28 @@ public class DecisionFragment extends Fragment {
         setHasOptionsMenu(true);
         // Initialise
         decisionList = getArguments().getStringArrayList(getString(R.string.decision_list_key));
-        decisionText = decisionList.get(new Random().nextInt(decisionList.size()));
+        decisionText = Decision();
+    }
+
+    private String Decision() {
+        return decisionList.get(new Random().nextInt(decisionList.size()));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_decision, container, false);
 
-        TextView decision = (TextView) view.findViewById(R.id.decision);
+        final TextView decision = (TextView) view.findViewById(R.id.decision);
         decision.setText(decisionText);
+
+        Button tryAgain = (Button) view.findViewById(R.id.try_again);
+        tryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decisionText = Decision();
+                decision.setText(decisionText);
+            }
+        });
 
         return view;
     }

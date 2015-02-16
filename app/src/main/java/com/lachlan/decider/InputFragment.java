@@ -22,7 +22,6 @@ import java.util.List;
 public class InputFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerViewAdapter mAdapter;
-    private List<String> myDataset;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,13 +40,8 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         decidingList.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-        myDataset = new ArrayList<>();
-        myDataset.add("test 1");
-        myDataset.add("test 2");
-        myDataset.add("test 3");
-        myDataset.add("test 4");
-        mAdapter = new RecyclerViewAdapter(myDataset);
+        // specify an adapter
+        mAdapter = new RecyclerViewAdapter(new ArrayList<String>());
         decidingList.setAdapter(mAdapter);
         decidingList.setItemAnimator(new DefaultItemAnimator());
 
