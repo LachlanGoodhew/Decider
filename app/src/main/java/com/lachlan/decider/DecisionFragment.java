@@ -3,6 +3,9 @@ package com.lachlan.decider;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ public class DecisionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
         // Initialise
         decisionList = getArguments().getStringArrayList(getString(R.string.decision_list_key));
         decisionText = decisionList.get(new Random().nextInt(decisionList.size()));
@@ -33,5 +37,12 @@ public class DecisionFragment extends Fragment {
         decision.setText(decisionText);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        super.onCreateOptionsMenu(menu, menuInflater);
+
+        menu.clear();
     }
 }
