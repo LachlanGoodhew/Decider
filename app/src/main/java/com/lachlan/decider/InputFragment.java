@@ -17,7 +17,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class InputFragment extends Fragment implements View.OnClickListener {
 
@@ -57,6 +56,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
                         for (int position : reverseSortedPositions) {
                             mAdapter.remove(position);
                         }
+                        getActivity().invalidateOptionsMenu();
                     }
                 });
 
@@ -75,6 +75,19 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         super.onCreateOptionsMenu(menu, menuInflater);
         // Inflate the menu items for use in the action bar
         menuInflater.inflate(R.menu.decider_menu_actions, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (menu.size() > 0) {
+            // Need at least two items to decide between
+            if (mAdapter.getItemCount() < 2) {
+                menu.getItem(0).setEnabled(false);
+            } else {
+                menu.getItem(0).setEnabled(true);
+            }
+        }
     }
 
     @Override
@@ -121,6 +134,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
                                 } else {
                                     itemToAdd.setError("Please enter a value");
                                 }
+                                getActivity().invalidateOptionsMenu();
                             }
 
                             @Override
